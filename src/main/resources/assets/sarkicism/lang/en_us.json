@@ -1,5 +1,7 @@
 {
   "itemGroup.sarkicism": "Example Mod Tab",
   "block.sarkicism.example_block": "Example Block",
-  "item.sarkicism.example_item": "Example Item"
+  "item.sarkicism.example_item": "Example Item",
+  "command.sarkicism.reload.success": "Reload success",
+  "command.sarkicism.reload.failure": "Reload failed"
 }

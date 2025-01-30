@@ -8,8 +8,11 @@ import net.neoforged.fml.common.EventBusSubscriber
 import net.neoforged.fml.common.Mod
 import net.neoforged.neoforge.client.event.RegisterKeyMappingsEvent
 
-@Mod(value = Sarkicism.ID, dist = [Dist.CLIENT])
-@EventBusSubscriber(bus = EventBusSubscriber.Bus.MOD)
+/**
+ * Main mod client-side class
+ */
+//@Mod(value = Sarkicism.ID, dist = [Dist.CLIENT])
+//@EventBusSubscriber(bus = EventBusSubscriber.Bus.MOD)
 object SarkicismClient {
     // In some physical client only class
     /*
