@@ -45,9 +45,28 @@ object Sarkicism {
 
         // Generic bus listeners
         NeoForge.EVENT_BUS.addListener(::registerCommands)
+        NeoForge.EVENT_BUS.addListener(::addAttributesOnJoin)
+        NeoForge.EVENT_BUS.addListener(::reloadModifiers)
+
+        // Mod-specific bus listeners
+        //MOD_BUS.addListener(::reloadModifiers)
     }
 
     private fun registerCommands(event: RegisterCommandsEvent) { ModCommands.register(event.dispatcher) }
+    // Attribute-related listeners
+    private fun addAttributesOnJoin(event: PlayerEvent.PlayerLoggedInEvent) { AttributeManager.onPlayerLogin(event.entity)}
+    private fun reloadModifiers(event: ReloadModifiersEvent) { AttributeManager.onModifiersReloaded(event.entity as Player) }
+
+    /*    init {
+        ModBlocks.BLOCK_REGISTRY.register(MOD_BUS)
+        //MOD_EVENT_BUS.register(YourEventHandler())
+
+        // Generic bus listeners
+        NeoForge.EVENT_BUS.addListener(::registerCommands)
+    }
+
+    private fun registerCommands(event: RegisterCommandsEvent) { ModCommands.register(event.dispatcher) }
+     */
 
     /**
      * This is used for initializing client specific
