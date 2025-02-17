@@ -3,13 +3,11 @@ package com.novvux.sarkicism.command
 import com.mojang.brigadier.CommandDispatcher
 import com.mojang.brigadier.context.CommandContext
 import com.mojang.brigadier.exceptions.CommandSyntaxException
-import com.novvux.sarkicism.Sarkicism
 import com.novvux.sarkicism.event.ReloadModifiersEvent
-import net.minecraft.network.chat.Component
 import net.minecraft.commands.CommandSourceStack
 import net.minecraft.commands.Commands.literal
+import net.minecraft.network.chat.Component
 import net.neoforged.neoforge.common.NeoForge
-import thedarkcolour.kotlinforforge.neoforge.forge.MOD_BUS
 
 class ModCommands {
     companion object {
@@ -27,7 +25,7 @@ class ModCommands {
         private fun reload(src: CommandSourceStack): Int {
             try {
                 val player = src.playerOrException
-                NeoForge.EVENT_BUS.post(ReloadModifiersEvent(player, src.level, player.inventory))
+                NeoForge.EVENT_BUS.post(ReloadModifiersEvent(player))
                 src.source.sendSystemMessage(Component.translatable("command.sarkicism.reload.success"))
             } catch (e: Exception) {
                 src.source.sendSystemMessage(Component.translatable("command.sarkicism.reload.failure"))

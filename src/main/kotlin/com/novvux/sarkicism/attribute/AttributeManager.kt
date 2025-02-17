@@ -1,35 +1,56 @@
 package com.novvux.sarkicism.attribute
 
-import com.novvux.sarkicism.event.ReloadModifiersEvent
+import com.novvux.sarkicism.Sarkicism
+import net.minecraft.core.Holder
+import net.minecraft.nbt.CompoundTag
+import net.minecraft.resources.ResourceLocation
+import net.minecraft.tags.ItemTags
 import net.minecraft.world.InteractionHand
+import net.minecraft.world.entity.ai.attributes.Attribute
+import net.minecraft.world.entity.ai.attributes.AttributeInstance
+import net.minecraft.world.entity.ai.attributes.AttributeModifier
+import net.minecraft.world.entity.ai.attributes.Attributes
 import net.minecraft.world.entity.player.Player
-import net.neoforged.neoforge.event.entity.player.PlayerEvent
 
 class AttributeManager {
     /*init {
         NeoForge.EVENT_BUS.register(this)
     }*/
 
-    /*@SubscribeEvent
-    fun onEntityJoin(event: ModifiersChangedEvent) {
-        if (event.entity is Player && !event.level.isClientSide()) {
-            val player: Player = event.entity as Player
+    companion object {
+        val modifier = ItemTags.create(ResourceLocation.fromNamespaceAndPath("minecraft","wool"))//ResourceLocation.fromNamespaceAndPath(Sarkicism.ID, "modifier"))
+        private fun recalculateModifiers(player: Player) {
+            val record = player.getItemInHand(InteractionHand.MAIN_HAND)
+            if (record.`is`(modifier)) {
+                applyModifier(player, ResourceLocation.fromNamespaceAndPath(Sarkicism.ID, "movement_speed"), Attributes.MOVEMENT_SPEED)
+            }
+            else {
+                removeModifier(player, ResourceLocation.fromNamespaceAndPath(Sarkicism.ID, "movement_speed"), Attributes.MOVEMENT_SPEED)
+            }
+        }
+
+        private fun applyModifier(player: Player, key: ResourceLocation, attribute: Holder<Attribute>) {
             val data: CompoundTag = player.persistentData
-            val key = ResourceLocation.fromNamespaceAndPath(ID, "movement_speed")
 
             if (!data.getBoolean(key.toString())) {
-                val speedAttr: AttributeInstance? = player.getAttribute(Attributes.MOVEMENT_SPEED)
-                if (speedAttr != null) {
+                val attr: AttributeInstance? = player.getAttribute(attribute)
+                if (attr != null) {
                     data.putBoolean(key.toString(), true)
-                    speedAttr.addPermanentModifier(AttributeModifier(key, 0.5, AttributeModifier.Operation.ADD_MULTIPLIED_BASE))
+                    attr.addPermanentModifier(AttributeModifier(key, 0.5, AttributeModifier.Operation.ADD_MULTIPLIED_BASE))
                 }
             }
         }
-    }*/
-    companion object {
-        private fun recalculateModifiers(player: Player) {
-            val record = player.getItemInHand(InteractionHand.MAIN_HAND)
-            player.addItem(record)
+
+        private fun removeModifier(player: Player, key: ResourceLocation, attribute: Holder<Attribute>) {
+            val data: CompoundTag = player.persistentData
+
+            if (data.getBoolean(key.toString())) {
+                val attr: AttributeInstance? = player.getAttribute(attribute)
+                if (attr != null) {
+                    data.putBoolean(key.toString(), false)
+                    attr.removeModifier(key)
+                }
+            }
         }
 
         fun onPlayerLogin(entity: Player) {
@@ -41,7 +62,7 @@ class AttributeManager {
 
         fun onModifiersReloaded(entity: Player) {
             if (!entity.level().isClientSide()) { // Server-side only
-                val player = entity as Player
+                val player = entity
                 recalculateModifiers(player)
             }
         }

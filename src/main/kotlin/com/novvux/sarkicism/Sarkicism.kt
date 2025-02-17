@@ -5,8 +5,6 @@ import com.novvux.sarkicism.block.ModBlocks
 import com.novvux.sarkicism.command.ModCommands
 import com.novvux.sarkicism.event.ReloadModifiersEvent
 import net.minecraft.world.entity.player.Player
-import net.neoforged.bus.EventBus
-import net.neoforged.bus.api.Event
 import net.neoforged.bus.api.SubscribeEvent
 import net.neoforged.fml.common.EventBusSubscriber
 import net.neoforged.fml.common.Mod
